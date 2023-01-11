@@ -1,7 +1,9 @@
+import { Baas } from '../baas';
 import { RouterStore } from '../router';
 
 class RootStore {
-    constructor() {
+    constructor(baasConfig) {
+        this.baas = new Baas(baasConfig);
         this.routerStore = new RouterStore(this);
     }
 }
