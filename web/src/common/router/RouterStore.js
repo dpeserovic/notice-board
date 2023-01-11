@@ -16,7 +16,6 @@ const notFoundState = createRouterState('notFoundState');
 class RouterStore {
     constructor(rootStore) {
         this.router = new MobxRouterStore(routes, notFoundState, { rootStore });
-        this.setObservingRouterStateChanges();
     }
 
     setObservingRouterStateChanges = () => {

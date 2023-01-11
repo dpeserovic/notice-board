@@ -6,7 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { RootStore } from './common/stores';
 
-const rootStore = new RootStore();
+const rootStore = window.rootStore = new RootStore();
+rootStore.routerStore.setObservingRouterStateChanges();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
