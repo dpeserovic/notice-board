@@ -22,6 +22,10 @@ class RouterStore {
         const historyAdapter = new HistoryAdapter(this.router, browserHistory);
         historyAdapter.observeRouterStateChanges();
     }
+
+    goTo = (routeName, options) => {
+        this.router.goTo(routeName, options);
+    }
 }
 
 export default RouterStore;
