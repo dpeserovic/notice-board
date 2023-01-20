@@ -4,6 +4,14 @@ const routes = [
     {
         name: 'login',
         pattern: '/login',
+        beforeEnter: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { membershipModuleStore: { loginViewStore: { init } } } } } = routerStore;
+            init();
+        },
+        onExit: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { membershipModuleStore: { loginViewStore: { dispose } } } } } = routerStore;
+            dispose();
+        }
     },
     {
         name: 'register',
