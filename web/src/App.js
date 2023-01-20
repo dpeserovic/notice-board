@@ -2,6 +2,8 @@ import React from 'react';
 import { RouterContext, RouterView } from 'mobx-state-router';
 import { MainLayout } from 'common/components';
 import { LoginPage, RegisterPage } from './modules/membership/pages';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const routeNames = {
   login: <LoginPage />,
@@ -14,6 +16,7 @@ function App({ rootStore }) {
     <RouterContext.Provider value={router}>
       <MainLayout>
         <RouterView viewMap={routeNames} />
+        <ToastContainer />
       </MainLayout>
     </RouterContext.Provider>
   );
