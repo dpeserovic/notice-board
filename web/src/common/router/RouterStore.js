@@ -8,6 +8,14 @@ const routes = [
     {
         name: 'register',
         pattern: '/register',
+        beforeEnter: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { membershipModuleStore: { registerViewStore: { init } } } } } = routerStore;
+            init();
+        },
+        onExit: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { membershipModuleStore: { registerViewStore: { dispose } } } } } = routerStore;
+            dispose();
+        }
     },
 ]
 
