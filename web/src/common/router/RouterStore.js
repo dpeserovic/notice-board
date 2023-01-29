@@ -11,7 +11,7 @@ const routes = [
         onExit: (fromState, toState, routerStore) => {
             const { options: { rootStore: { membershipModuleStore: { loginViewStore: { dispose } } } } } = routerStore;
             dispose();
-        }
+        },
     },
     {
         name: 'register',
@@ -23,7 +23,11 @@ const routes = [
         onExit: (fromState, toState, routerStore) => {
             const { options: { rootStore: { membershipModuleStore: { registerViewStore: { dispose } } } } } = routerStore;
             dispose();
-        }
+        },
+    },
+    {
+        name: 'dashboard',
+        pattern: '/dashboard',
     },
 ]
 
