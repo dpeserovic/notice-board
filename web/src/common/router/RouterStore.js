@@ -29,9 +29,13 @@ const routes = [
         name: 'dashboard',
         pattern: '/dashboard',
     },
+    {
+        name: 'notFound',
+        pattern: 'not-found',
+    },
 ]
 
-const notFoundState = createRouterState('notFoundState');
+const notFoundState = createRouterState('notFound');
 
 class RouterStore {
     constructor(rootStore) {
