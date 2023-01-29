@@ -1,5 +1,5 @@
 import { Baas } from '../baas';
-import { AuthStore, LoaderStore, NotificationStore } from './';
+import { AuthStore, LoaderStore, NotificationStore, MenuStore } from './';
 import { RouterStore } from '../router';
 import { MembershipModuleStore } from 'modules/membership/stores';
 
@@ -11,6 +11,7 @@ class RootStore {
         this.globalLoaderStore = new LoaderStore();
         this.notificationStore = new NotificationStore();
         this.membershipModuleStore = new MembershipModuleStore(this);
+        this.menuStore = new MenuStore(this);
     }
 }
 
