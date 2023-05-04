@@ -7,8 +7,8 @@ class RootStore {
     constructor(baasConfig) {
         this.baas = new Baas(baasConfig);
         this.routerStore = new RouterStore(this);
-        this.authStore = new AuthStore(this);
         this.globalLoaderStore = new LoaderStore();
+        this.authStore = new AuthStore(this);
         this.notificationStore = new NotificationStore();
         this.membershipModuleStore = new MembershipModuleStore(this);
         this.menuStore = new MenuStore(this);

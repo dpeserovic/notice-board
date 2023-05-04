@@ -2,7 +2,25 @@
     text-align: center;
 }
 
+.nav-link {
+    text-align: center;
+}
+
 .nav-link:hover {
     background-color: var(--bs-danger);
     color: var(--bs-light);
+}
+
+.btn-icon {
+    border: none;
+    border-radius: 25%;
+}
+
+.btn-icon-danger {
+    background-color: var(--bs-white);
+}
+
+.btn-icon-danger:hover {
+    color: var(--bs-white);
+    background-color: var(--bs-danger);
 }

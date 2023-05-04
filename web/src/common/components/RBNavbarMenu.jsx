@@ -1,14 +1,15 @@
 import React from 'react';
 import { defaultTemplate } from 'common/hoc';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { BsPower } from 'react-icons/bs';
 import Nav from 'react-bootstrap/Nav';
 
-function RBNavbarMenu({ menuStore: { menu }, routerStore: { goTo } }) {
+function RBNavbarMenu({ authStore: { isLoggedIn, displayName, logout }, menuStore: { menu }, routerStore: { goTo } }) {
     return (
         <>
             <Offcanvas.Header closeButton>
                 <Offcanvas.Title id="offcanvasNavbarLabel-expand">
-                    Notice Board
+                    {isLoggedIn ? <span>{displayName} <button type="button" onClick={logout} className="btn-icon btn-icon-danger"><BsPower /></button></span> : null}
                 </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
