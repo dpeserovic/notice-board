@@ -6,7 +6,7 @@ import { RBNavbarMenu } from './';
 
 function RBNavbar({ authStore: { isLoggedIn } }) {
     return (
-        <Navbar className="mb-3" bg="danger" variant="dark" expand={false}>
+        <Navbar className="mb-3" expand={false}>
             <Container fluid>
                 <Navbar.Brand>Notice Board</Navbar.Brand>
                 {isLoggedIn ?

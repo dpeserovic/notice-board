@@ -20,9 +20,9 @@ function RegisterPage(props) {
                         </Row>
                     )
                 })}
-                <Button type="button" className="mb-3" variant="danger" onClick={registerForm.onSubmit}>Sign up</Button>
+                <Button type="button" className="mb-3" variant="primary" onClick={registerForm.onSubmit}>Sign up</Button>
             </Form>
-            <Button type="button" variant="warning" onClick={goToLogin}>Have an account? Log in</Button>
+            <Button type="button" variant="secondary" onClick={goToLogin}>Have an account? Log in</Button>
         </div>
     );
 }

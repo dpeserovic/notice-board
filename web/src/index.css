@@ -1,26 +1,54 @@
+:root {
+    --neutral-background: #FFFFFF;
+    --primary-accent: #3F51B5;
+    --secondary-accent: #FF4081;
+    --complementary: #FFD740;
+    --text-and-icon: #333333;
+    --divider-and-border: #E0E0E0;
+}
 .center {
     text-align: center;
 }
 
+.navbar {
+    background-color: var(--primary-accent);
+}
+.navbar-brand {
+    color: var(--neutral-background);
+}
+.navbar-toggler {
+    background-color: var(--neutral-background);
+    border: 1px solid var(--divider-and-border);
+}
 .nav-link {
     text-align: center;
 }
 
 .nav-link:hover {
-    background-color: var(--bs-danger);
-    color: var(--bs-light);
+    background-color: var(--complementary);
+    color: var(--text-and-icon);
 }
 
+.btn-primary {
+    background-color: var(--primary-accent);
+    color: var(--neutral-background);
+    border: none;
+}
+.btn-secondary {
+    background-color: var(--complementary);
+    color: var(--text-and-icon);
+    border: none;
+}
 .btn-icon {
     border: none;
     border-radius: 25%;
 }
 
 .btn-icon-danger {
-    background-color: var(--bs-white);
+    background-color: var(--neutral-background);
 }
 
 .btn-icon-danger:hover {
-    color: var(--bs-white);
-    background-color: var(--bs-danger);
+    color: var(--neutral-background);
+    background-color: var(--secondary-accent);
 }

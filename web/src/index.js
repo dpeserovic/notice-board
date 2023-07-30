@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { RootStore } from './common/stores';
 import { BAAS_CONFIG } from './baasConfig';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
 const rootStore = window.rootStore = new RootStore(BAAS_CONFIG);
 rootStore.routerStore.setObservingRouterStateChanges();
