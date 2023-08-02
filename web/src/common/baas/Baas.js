@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 
 class Baas {
@@ -8,6 +9,7 @@ class Baas {
         this.auth = getAuth(this.app);
         this.membershipService = this.createMembershipService();
         this.authStateObserver = onAuthStateChanged;
+        this.db = getFirestore(this.app);
     }
 
     createMembershipService = () => ({
