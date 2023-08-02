@@ -41,6 +41,7 @@ class DashboardViewStore {
                 const response = await this.noticeBoardService.get(form.values().code);
                 if (!response.empty) {
                     await this.userService.create(this.userStore.userId, { role: 'reporter', noticeBoardId: response.docs[0].id });
+                    this.userStore.setUserAdditionalInfo((await this.userService.get(this.userStore.userId)).data());
                 } else {
                     this.notificationStore.showErrorToast('Unknown notice board code');
                 }
