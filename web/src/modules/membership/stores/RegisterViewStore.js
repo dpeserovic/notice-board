@@ -4,37 +4,22 @@ import { registerFormFields } from '../forms';
 class RegisterViewStore {
     registerForm = null;
 
-    constructor(rootStore) {
-        this.globalLoaderStore = rootStore.globalLoaderStore;
-        this.auth = rootStore.authStore.auth;
-        this.membershipService = rootStore.authStore.membershipService;
-        this.notificationStore = rootStore.notificationStore;
-        this.routerStore = rootStore.routerStore;
+    constructor({ userStore: { register }, notificationStore: { showErrorToast }, routerStore: { goTo } }) {
+        this.register = register;
+        this.showErrorToast = showErrorToast;
+        this.goTo = goTo;
     }
 
     init = () => {
-        this.registerForm = createForm({ fields: registerFormFields, hooks: { onSuccess: this.handleRegisterFormSuccess, onError: this.handleRegisterFormError } });
-    }
-
-    handleRegisterFormSuccess = async form => {
-        try {
-            this.globalLoaderStore.suspend();
-            const { email, password } = form.values();
-            await this.membershipService.register(this.auth, email, password);
-            this.notificationStore.showSuccessToast('Success');
-        } catch (e) {
-            this.notificationStore.showErrorToast('Error');
-        } finally {
-            this.globalLoaderStore.resume();
-        }
+        this.registerForm = createForm({ fields: registerFormFields, hooks: { onSuccess: this.register, onError: this.handleRegisterFormError } });
     }
 
     handleRegisterFormError = () => {
-        this.notificationStore.showErrorToast('Invalid form values');
+        this.showErrorToast('Invalid form values');
     }
 
     goToLogin = () => {
-        this.routerStore.goTo('login');
+        this.goTo('login');
     }
 
     dispose = () => {

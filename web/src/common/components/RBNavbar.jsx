@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import { RBNavbarMenu } from './';
 
-function RBNavbar({ authStore: { isLoggedIn } }) {
+function RBNavbar({ userStore: { isLoggedIn } }) {
     return (
         <Navbar className="mb-3" expand={false}>
             <Container fluid>

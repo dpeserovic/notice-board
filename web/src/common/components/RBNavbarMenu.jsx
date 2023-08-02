@@ -4,7 +4,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { BsPower } from 'react-icons/bs';
 import Nav from 'react-bootstrap/Nav';
 
-function RBNavbarMenu({ authStore: { isLoggedIn, displayName, logout }, menuStore: { menu }, routerStore: { goTo } }) {
+function RBNavbarMenu({ userStore: { isLoggedIn, displayName, logout }, menuStore: { menu }, routerStore: { goTo } }) {
     return (
         <>
             <Offcanvas.Header closeButton>
