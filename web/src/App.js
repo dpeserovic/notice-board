@@ -2,7 +2,7 @@ import React from 'react';
 import { RouterContext, RouterView } from 'mobx-state-router';
 import { MainLayout } from 'common/components';
 import { LoginPage, RegisterPage } from 'modules/membership/pages';
-import { Dashboard } from 'modules/dashboard/pages';
+import { DashboardPage } from 'modules/dashboard/pages';
 import NotFound from './NotFound';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const routeNames = {
   login: <LoginPage />,
   register: <RegisterPage />,
-  dashboard: <Dashboard />,
+  dashboard: <DashboardPage />,
   notFound: <NotFound />,
 }
 

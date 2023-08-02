@@ -16,6 +16,9 @@
 .navbar-brand {
     color: var(--neutral-background);
 }
+.navbar-brand:hover {
+    color: var(--neutral-background);
+}
 .navbar-toggler {
     background-color: var(--neutral-background);
     border: 1px solid var(--divider-and-border);

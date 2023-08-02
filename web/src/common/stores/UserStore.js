@@ -2,6 +2,7 @@ import { makeObservable, observable, computed, action } from 'mobx';
 
 class UserStore {
     user = null;
+    userAdditionalInfo = null;
 
     get isLoggedIn() {
         return this.user != null;
@@ -9,6 +10,18 @@ class UserStore {
 
     get displayName() {
         return this.isLoggedIn && this.user.email.split('@')[0];
+    }
+
+    get userId() {
+        return this.isLoggedIn && this.user.uid;
+    }
+
+    get hasUserAdditionalInfo() {
+        return this.userAdditionalInfo != null;
+    }
+
+    get userRole() {
+        return this.hasUserAdditionalInfo ? this.userAdditionalInfo.role : '';
     }
 
     constructor({ baas: { auth, membershipService }, globalLoaderStore, notificationStore }) {
@@ -25,6 +38,10 @@ class UserStore {
 
     setUser = user => {
         this.user = user;
+    }
+
+    setUserAdditionalInfo = userAdditionalInfo => {
+        this.userAdditionalInfo = userAdditionalInfo;
     }
 
     login = async form => {

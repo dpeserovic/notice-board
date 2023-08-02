@@ -28,6 +28,15 @@ const routes = [
     {
         name: 'dashboard',
         pattern: '/dashboard',
+        beforeEnter: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { dashboardViewStore: { initFn } } } } = routerStore;
+            if (!routerStore.options.rootStore.userStore.isLoggedIn) return Promise.reject();
+            initFn();
+        },
+        onExit: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { dashboardViewStore: { dispose } } } } = routerStore;
+            dispose();
+        },
     },
     {
         name: 'notFound',
