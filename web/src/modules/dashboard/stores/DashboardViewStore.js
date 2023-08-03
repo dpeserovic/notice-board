@@ -38,7 +38,7 @@ class DashboardViewStore {
         const handleJoinNoticeBoardSuccess = async form => {
             try {
                 this.globalLoaderStore.suspend();
-                const response = await this.noticeBoardService.get(form.values().code);
+                const response = await this.noticeBoardService.getByCode(form.values().code);
                 if (!response.empty) {
                     await this.userService.create(this.userStore.userId, { role: 'reporter', noticeBoardId: response.docs[0].id });
                     this.userStore.setUserAdditionalInfo((await this.userService.get(this.userStore.userId)).data());

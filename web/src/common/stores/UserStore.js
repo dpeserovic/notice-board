@@ -24,6 +24,10 @@ class UserStore {
         return this.hasUserAdditionalInfo ? this.userAdditionalInfo.role : '';
     }
 
+    get userNoticeBoardId() {
+        return this.hasUserAdditionalInfo && this.userAdditionalInfo.noticeBoardId;
+    }
+
     constructor({ baas: { auth, membershipService }, globalLoaderStore, notificationStore }) {
         makeObservable(this, {
             user: observable,

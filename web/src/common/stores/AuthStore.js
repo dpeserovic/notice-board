@@ -1,16 +1,17 @@
 import { makeObservable, action } from 'mobx';
 
 class AuthStore {
-    constructor({ baas: { auth, authStateObserver }, userStore: { setUser, setUserAdditionalInfo }, userService, routerStore: { goTo } }) {
+    constructor({ baas: { auth, authStateObserver }, userStore, userService, noticeBoardService, setNoticeBoard, routerStore: { goTo } }) {
         makeObservable(this, {
             nextOrObserver: action,
         });
         this.auth = auth;
         this.authStateObserver = authStateObserver;
         this.unsubscribeAuthStateObserver = this.setAuthStateObserver();
-        this.setUser = setUser;
-        this.setUserAdditionalInfo = setUserAdditionalInfo;
+        this.userStore = userStore;
         this.userService = userService;
+        this.setNoticeBoard = setNoticeBoard;
+        this.noticeBoardService = noticeBoardService;
         this.goTo = goTo;
     }
 
@@ -18,12 +19,14 @@ class AuthStore {
 
     nextOrObserver = async user => {
         if (user != null) {
-            this.setUser(user);
-            this.setUserAdditionalInfo((await this.userService.get(user.uid)).data());
+            this.userStore.setUser(user);
+            this.userStore.setUserAdditionalInfo((await this.userService.get(user.uid)).data());
+            this.setNoticeBoard((await this.noticeBoardService.getById(this.userStore.userNoticeBoardId)));
             this.goTo('dashboard');
         } else {
-            this.setUser(null);
-            this.setUserAdditionalInfo(null);
+            this.userStore.setUser(null);
+            this.userStore.setUserAdditionalInfo(null);
+            this.setNoticeBoard(null);
             this.goTo('login');
         }
     };
