@@ -6,7 +6,7 @@ class DashboardViewStore {
     joinNoticeBoardForm = null;
 
     get initFn() {
-        return this.userStore.hasUserAdditionalInfo ? this.init : this.initNewUser;
+        return this.userStore.hasUserAdditionalInfo.userNoticeBoardId != null ? this.init : this.initNewUser;
     }
 
     constructor(rootStore) {
@@ -23,8 +23,8 @@ class DashboardViewStore {
             try {
                 this.globalLoaderStore.suspend();
                 const response = await this.noticeBoardService.create(form.values());
-                await this.userService.create(this.userStore.userId, { role: 'creator', noticeBoardId: response.id });
-                this.userStore.setUserAdditionalInfo((await this.userService.get(this.userStore.userId)).data());
+                await this.userService.update(this.userStore.userId, { role: 'creator', noticeBoardId: response.id });
+                this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());
             } catch (e) {
                 this.notificationStore.showErrorToast('Error');
             } finally {
@@ -40,8 +40,8 @@ class DashboardViewStore {
                 this.globalLoaderStore.suspend();
                 const response = await this.noticeBoardService.getByCode(form.values().code);
                 if (!response.empty) {
-                    await this.userService.create(this.userStore.userId, { role: 'reporter', noticeBoardId: response.docs[0].id });
-                    this.userStore.setUserAdditionalInfo((await this.userService.get(this.userStore.userId)).data());
+                    await this.userService.update(this.userStore.userId, { role: 'reporter', noticeBoardId: response.docs[0].id });
+                    this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());
                 } else {
                     this.notificationStore.showErrorToast('Unknown notice board code');
                 }

@@ -35,7 +35,7 @@ class RootStore {
     }
 
     setNoticeBoard = noticeBoard => {
-        this.noticeBoard = { ...noticeBoard.data(), id: noticeBoard.id };
+        this.noticeBoard = noticeBoard != null ? { ...noticeBoard.data(), id: noticeBoard.id } : null;
     }
 }
 

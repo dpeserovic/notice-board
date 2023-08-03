@@ -1,4 +1,4 @@
-import { setDoc, doc, getDoc } from 'firebase/firestore';
+import { setDoc, doc, updateDoc, getDoc, getDocs, query, collection, where } from 'firebase/firestore';
 
 class UserService {
     constructor(db, base) {
@@ -10,8 +10,16 @@ class UserService {
         return setDoc(doc(this.db, this.base, id), data);
     }
 
-    get(id) {
+    update(id, data) {
+        return updateDoc(doc(this.db, this.base, id), data);
+    }
+
+    getById(id) {
         return getDoc(doc(this.db, this.base, id));
+    }
+
+    getReportersByNoticeBoardId(noticeBoardId) {
+        return getDocs(query(collection(this.db, this.base), where('noticeBoardId', '==', noticeBoardId), where('role', '==', 'reporter')));
     }
 }
 
