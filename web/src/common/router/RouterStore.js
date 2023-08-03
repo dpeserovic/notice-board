@@ -39,6 +39,19 @@ const routes = [
         },
     },
     {
+        name: 'reporter-management',
+        pattern: '/reporter-management',
+        beforeEnter: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { reporterManagementViewStore: { init } } } } = routerStore;
+            if (!routerStore.options.rootStore.userStore.isLoggedIn) return Promise.reject();
+            init();
+        },
+        onExit: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { reporterManagementViewStore: { dispose } } } } = routerStore;
+            dispose();
+        },
+    },
+    {
         name: 'notFound',
         pattern: 'not-found',
     },
