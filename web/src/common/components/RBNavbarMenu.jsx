@@ -14,7 +14,7 @@ function RBNavbarMenu({ userStore: { isLoggedIn, userDisplayName, logout }, menu
             </Offcanvas.Header>
             <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                    {menu.map(m => <Nav.Link key={m.route} onClick={() => goTo(m.route)}>{m.name}</Nav.Link>)}
+                    {menu.map(m => <Nav.Link className="text-center" key={m.route} onClick={() => goTo(m.route)}>{m.name}</Nav.Link>)}
                 </Nav>
             </Offcanvas.Body>
         </>

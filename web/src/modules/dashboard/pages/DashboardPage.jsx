@@ -36,7 +36,7 @@ function ReporterDashboard(props) {
 const NewUserDashboard = observer(function (props) {
     const { dashboardViewStore: { createNoticeBoardForm, joinNoticeBoardForm } } = props;
     return (
-        <div className="center">
+        <div className="text-center">
             <Row>
                 <Col>
                     <h1>Create new notice board</h1>

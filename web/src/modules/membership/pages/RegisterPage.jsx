@@ -8,7 +8,7 @@ import { defaultTemplate } from 'common/hoc';
 function RegisterPage(props) {
     const { membershipModuleStore: { registerViewStore: { registerForm, goToLogin } } } = props;
     return (
-        <div className="center">
+        <div className="text-center">
             <h1>Register</h1>
             <Form>
                 {Array.from(registerForm.fields).map(([key, value]) => {

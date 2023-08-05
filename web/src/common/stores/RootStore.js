@@ -5,7 +5,7 @@ import { MenuStore, LoaderStore, NotificationStore, UserStore, AuthStore } from 
 import { NoticeBoardService, UserService } from 'common/services';
 import { MembershipModuleStore } from 'modules/membership/stores';
 import { DashboardViewStore } from 'modules/dashboard/stores';
-import { ReporterManagementViewStore } from 'modules/reporter-management/stores';
+import { ReporterDetailsViewStore } from 'modules/reporter-details/stores';
 
 class RootStore {
     noticeBoard = null;
@@ -31,7 +31,7 @@ class RootStore {
 
         this.membershipModuleStore = new MembershipModuleStore(this);
         this.dashboardViewStore = new DashboardViewStore(this);
-        this.reporterManagementViewStore = new ReporterManagementViewStore(this);
+        this.reporterDetailsViewStore = new ReporterDetailsViewStore(this);
     }
 
     setNoticeBoard = noticeBoard => {

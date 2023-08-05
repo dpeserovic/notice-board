@@ -3,7 +3,7 @@ import { RouterContext, RouterView } from 'mobx-state-router';
 import { MainLayout } from 'common/components';
 import { LoginPage, RegisterPage } from 'modules/membership/pages';
 import { DashboardPage } from 'modules/dashboard/pages';
-import { ReporterManagement } from 'modules/reporter-management/pages';
+import { ReporterDetails } from 'modules/reporter-details/pages';
 import NotFound from './NotFound';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,7 +12,7 @@ const routeNames = {
   login: <LoginPage />,
   register: <RegisterPage />,
   dashboard: <DashboardPage />,
-  'reporter-management': <ReporterManagement />,
+  'reporter-details': <ReporterDetails />,
   notFound: <NotFound />,
 }
 

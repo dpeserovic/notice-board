@@ -6,25 +6,22 @@
     --text-and-icon: #333333;
     --divider-and-border: #E0E0E0;
 }
-.center {
-    text-align: center;
-}
 
 .navbar {
     background-color: var(--primary-accent);
 }
+
 .navbar-brand {
     color: var(--neutral-background);
 }
+
 .navbar-brand:hover {
     color: var(--neutral-background);
 }
+
 .navbar-toggler {
     background-color: var(--neutral-background);
     border: 1px solid var(--divider-and-border);
-}
-.nav-link {
-    text-align: center;
 }
 
 .nav-link:hover {
@@ -35,13 +32,29 @@
 .btn-primary {
     background-color: var(--primary-accent);
     color: var(--neutral-background);
+    opacity: 1;
     border: none;
 }
+
+.btn-primary:hover {
+    background-color: var(--primary-accent);
+    color: var(--neutral-background);
+    opacity: 0.8;
+}
+
 .btn-secondary {
     background-color: var(--complementary);
     color: var(--text-and-icon);
+    opacity: 1;
     border: none;
 }
+
+.btn-secondary:hover {
+    background-color: var(--complementary);
+    color: var(--text-and-icon);
+    opacity: 0.8;
+}
+
 .btn-icon {
     border: none;
     border-radius: 25%;
@@ -54,4 +67,14 @@
 .btn-icon-danger:hover {
     color: var(--neutral-background);
     background-color: var(--secondary-accent);
+}
+
+.table {
+    width: 80%;
+    margin: 0 auto 0 auto;
+}
+
+.table thead {
+    background-color: var(--text-and-icon);
+    color: var(--neutral-background);
 }

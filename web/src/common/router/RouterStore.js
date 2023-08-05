@@ -39,15 +39,15 @@ const routes = [
         },
     },
     {
-        name: 'reporter-management',
-        pattern: '/reporter-management',
+        name: 'reporter-details',
+        pattern: '/reporter-details',
         beforeEnter: (fromState, toState, routerStore) => {
-            const { options: { rootStore: { reporterManagementViewStore: { init } } } } = routerStore;
+            const { options: { rootStore: { reporterDetailsViewStore: { init } } } } = routerStore;
             if (!routerStore.options.rootStore.userStore.isLoggedIn) return Promise.reject();
             init();
         },
         onExit: (fromState, toState, routerStore) => {
-            const { options: { rootStore: { reporterManagementViewStore: { dispose } } } } = routerStore;
+            const { options: { rootStore: { reporterDetailsViewStore: { dispose } } } } = routerStore;
             dispose();
         },
     },

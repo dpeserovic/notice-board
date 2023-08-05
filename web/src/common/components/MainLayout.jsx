@@ -8,7 +8,7 @@ function MainLayout({ children, globalLoaderStore: { isLoading } }) {
         <>
             <RBNavbar />
             {isLoading ?
-                <div className="center">
+                <div className="text-center">
                     <RotatingLines strokeColor="red" strokeWidth="2.5" animationDuration="1" width="90" visible={true} />
                 </div>
                 :
