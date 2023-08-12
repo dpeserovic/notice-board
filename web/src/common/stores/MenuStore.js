@@ -6,6 +6,10 @@ class MenuStore {
                 name: 'Reporter details',
                 route: 'reporter-details',
             },
+            {
+                name: 'Notification management',
+                route: 'notification-management',
+            },
         ];
     }
 

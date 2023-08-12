@@ -25,6 +25,10 @@ class UserService {
     subscribeToReportersByNoticeBoard(noticeBoardId, callback) {
         return onSnapshot(query(collection(this.db, this.base), where('noticeBoardId', '==', noticeBoardId), where('role', '==', 'reporter')), callback);
     }
+
+    getUsersByNoticeBoardId(noticeBoardId) {
+        return getDocs(query(collection(this.db, this.base), where('noticeBoardId', '==', noticeBoardId)));
+    }
 }
 
 export default UserService;

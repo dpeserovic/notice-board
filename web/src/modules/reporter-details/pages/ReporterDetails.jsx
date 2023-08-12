@@ -30,7 +30,7 @@ const ReporterRow = observer(function ({ item }) {
         <tr>
             <td>{item.displayName}</td>
             <td>{item.email}</td>
-            <td>{item.dateCreated}</td>
+            <td>{new Date(item.dateCreated).toLocaleString(navigator.language)}</td>
         </tr>
     )
 })

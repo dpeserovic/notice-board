@@ -21,7 +21,7 @@ class AuthStore {
         if (user != null) {
             this.userStore.setUser(user);
             this.userStore.setUserAdditionalInfo((await this.userService.getById(user.uid)).data());
-            if (this.userStore.userNoticeBoardId != null) this.setNoticeBoard((await this.noticeBoardService.getById(this.userStore.userNoticeBoardId)));
+            if (this.userStore.userNoticeBoardId != null) this.setNoticeBoard((await this.noticeBoardService.getNoticeBoardById(this.userStore.userNoticeBoardId)));
             this.goTo('dashboard');
         } else {
             this.userStore.setUser(null);

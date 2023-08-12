@@ -52,6 +52,19 @@ const routes = [
         },
     },
     {
+        name: 'notification-management',
+        pattern: '/notification-management',
+        beforeEnter: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { notificationManagementViewStore: { init } } } } = routerStore;
+            if (!routerStore.options.rootStore.userStore.isLoggedIn) return Promise.reject();
+            init();
+        },
+        onExit: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { notificationManagementViewStore: { dispose } } } } = routerStore;
+            dispose();
+        },
+    },
+    {
         name: 'notFound',
         pattern: 'not-found',
     },

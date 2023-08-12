@@ -6,9 +6,14 @@ import { NoticeBoardService, UserService } from 'common/services';
 import { MembershipModuleStore } from 'modules/membership/stores';
 import { DashboardViewStore } from 'modules/dashboard/stores';
 import { ReporterDetailsViewStore } from 'modules/reporter-details/stores';
+import { NotificationManagementViewStore, NotificationModalViewStore } from 'modules/notification-management/stores';
 
 class RootStore {
     noticeBoard = null;
+
+    get noticeBoardId() {
+        return this.noticeBoard != null && this.noticeBoard.id;
+    }
 
     constructor(baasConfig) {
         makeObservable(this, {
@@ -23,7 +28,7 @@ class RootStore {
         this.globalLoaderStore = new LoaderStore();
         this.notificationStore = new NotificationStore();
 
-        this.noticeBoardService = new NoticeBoardService(this.baas.db, 'notice-boards');
+        this.noticeBoardService = new NoticeBoardService(this.baas.db, 'notice-boards', 'notifications');
         this.userService = new UserService(this.baas.db, 'users');
 
         this.userStore = new UserStore(this);
@@ -32,6 +37,8 @@ class RootStore {
         this.membershipModuleStore = new MembershipModuleStore(this);
         this.dashboardViewStore = new DashboardViewStore(this);
         this.reporterDetailsViewStore = new ReporterDetailsViewStore(this);
+        this.notificationManagementViewStore = new NotificationManagementViewStore(this);
+        this.notificationModalViewStore = new NotificationModalViewStore(this);
     }
 
     setNoticeBoard = noticeBoard => {

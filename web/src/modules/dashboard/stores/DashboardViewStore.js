@@ -22,7 +22,7 @@ class DashboardViewStore {
         const handleCreateNoticeBoardSuccess = async form => {
             try {
                 this.globalLoaderStore.suspend();
-                const response = await this.noticeBoardService.create(form.values());
+                const response = await this.noticeBoardService.createNoticeBoard({ ...form.values(), dateCreated: new Date().toGMTString() });
                 await this.userService.update(this.userStore.userId, { role: 'creator', noticeBoardId: response.id });
                 this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());
             } catch (e) {
@@ -38,7 +38,7 @@ class DashboardViewStore {
         const handleJoinNoticeBoardSuccess = async form => {
             try {
                 this.globalLoaderStore.suspend();
-                const response = await this.noticeBoardService.getByCode(form.values().code);
+                const response = await this.noticeBoardService.getNoticeBoardByCode(form.values().code);
                 if (!response.empty) {
                     await this.userService.update(this.userStore.userId, { role: 'reporter', noticeBoardId: response.docs[0].id });
                     this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());

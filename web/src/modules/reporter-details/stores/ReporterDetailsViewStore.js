@@ -39,7 +39,7 @@ class ReporterDetailsViewStore {
     }
 
     dispose = () => {
-        this.unsubscribeFn();
+        if (this.unsubscribeFn != null) this.unsubscribeFn();
         this.unsubscribeFn = null;
         this.reporters = null;
     }

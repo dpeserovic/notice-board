@@ -4,6 +4,7 @@ import { MainLayout } from 'common/components';
 import { LoginPage, RegisterPage } from 'modules/membership/pages';
 import { DashboardPage } from 'modules/dashboard/pages';
 import { ReporterDetails } from 'modules/reporter-details/pages';
+import { NotificationManagement } from 'modules/notification-management/pages';
 import NotFound from './NotFound';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,6 +14,7 @@ const routeNames = {
   register: <RegisterPage />,
   dashboard: <DashboardPage />,
   'reporter-details': <ReporterDetails />,
+  'notification-management': <NotificationManagement />,
   notFound: <NotFound />,
 }
 

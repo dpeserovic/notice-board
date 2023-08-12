@@ -10,8 +10,6 @@ import { observer } from 'mobx-react';
 function DashboardPage(props) {
     const { userStore: { userRole } } = props;
     switch (userRole) {
-        case 'admin':
-            return <AdminDashboard {...props} />
         case 'creator':
             return <CreatorDashboard {...props} />
         case 'reporter':
@@ -19,10 +17,6 @@ function DashboardPage(props) {
         default:
             return <NewUserDashboard {...props} />;
     }
-}
-
-function AdminDashboard(props) {
-    return <span>AdminDashboard</span>
 }
 
 function CreatorDashboard(props) {
