@@ -43,7 +43,7 @@ const routes = [
         pattern: '/reporter-details',
         beforeEnter: (fromState, toState, routerStore) => {
             const { options: { rootStore: { reporterDetailsViewStore: { init } } } } = routerStore;
-            if (!routerStore.options.rootStore.userStore.isLoggedIn || routerStore.options.rootStore.userStore.userRole != 'creator') return Promise.reject();
+            if (!routerStore.options.rootStore.userStore.isLoggedIn || routerStore.options.rootStore.userStore.userRole !== 'creator') return Promise.reject();
             init();
         },
         onExit: (fromState, toState, routerStore) => {
