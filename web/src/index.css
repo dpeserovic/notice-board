@@ -96,3 +96,9 @@
 .icon:hover {
     cursor: pointer;
 }
+
+.list-group-item {
+    font-size: 25px;
+    font-weight: bold;
+    border: none;
+}

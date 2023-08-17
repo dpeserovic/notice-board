@@ -1,4 +1,4 @@
-import { setDoc, doc, updateDoc, getDoc, getDocs, query, collection, where, onSnapshot } from 'firebase/firestore';
+import { setDoc, doc, updateDoc, getDoc, getCountFromServer, getDocs, query, collection, where, onSnapshot } from 'firebase/firestore';
 
 class UserService {
     constructor(db, base) {
@@ -16,6 +16,10 @@ class UserService {
 
     getById(id) {
         return getDoc(doc(this.db, this.base, id));
+    }
+
+    getCountOfReportersByNoticeBoard(noticeBoardId) {
+        return getCountFromServer(query(collection(this.db, this.base), where("noticeBoardId", "==", noticeBoardId), where("role", "==", "reporter")));
     }
 
     getReportersByNoticeBoardId(noticeBoardId) {

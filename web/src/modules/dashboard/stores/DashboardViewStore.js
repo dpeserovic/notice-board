@@ -1,73 +1,28 @@
-import { createForm } from 'common/form';
-import { createNoticeBoardFormFields, joinNoticeBoardFormFields } from '../forms';
+import { CreatorViewStore, ReporterViewStore, NewUserViewStore } from './';
 
 class DashboardViewStore {
-    createNoticeBoardForm = null;
-    joinNoticeBoardForm = null;
 
     get initFn() {
-        return this.userStore.hasUserAdditionalInfo.userNoticeBoardId != null ? this.init : this.initNewUser;
+        switch (this.rootStore.userStore.userRole) {
+            case 'creator':
+                return this.creatorViewStore.init;
+            case 'reporter':
+                return () => { };
+            default:
+                return this.newUserViewStore.init;
+        }
     }
 
     constructor(rootStore) {
         this.rootStore = rootStore;
-        this.globalLoaderStore = rootStore.globalLoaderStore;
-        this.notificationStore = rootStore.notificationStore;
-        this.userStore = rootStore.userStore;
-        this.noticeBoardService = rootStore.noticeBoardService;
-        this.userService = rootStore.userService;
+        this.creatorViewStore = new CreatorViewStore(rootStore);
+        this.reporterViewStore = new ReporterViewStore(rootStore);
+        this.newUserViewStore = new NewUserViewStore(rootStore);
     }
-
-    initNewUser = () => {
-        const handleCreateNoticeBoardSuccess = async form => {
-            try {
-                this.globalLoaderStore.suspend();
-                const response = await this.noticeBoardService.createNoticeBoard({ ...form.values(), dateCreated: new Date().toGMTString() });
-                await this.userService.update(this.userStore.userId, { role: 'creator', noticeBoardId: response.id });
-                this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());
-                const noticeBoard = await this.noticeBoardService.getNoticeBoardById(response.id);
-                this.rootStore.setNoticeBoard(noticeBoard);
-            } catch (e) {
-                this.notificationStore.showErrorToast('Error');
-            } finally {
-                this.globalLoaderStore.resume();
-            }
-        }
-        const handleCreateNoticeBoardError = () => {
-            this.notificationStore.showErrorToast('Invalid form values');
-        }
-
-        const handleJoinNoticeBoardSuccess = async form => {
-            try {
-                this.globalLoaderStore.suspend();
-                const response = await this.noticeBoardService.getNoticeBoardByCode(form.values().code);
-                if (!response.empty) {
-                    await this.userService.update(this.userStore.userId, { role: 'reporter', noticeBoardId: response.docs[0].id });
-                    this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());
-                    const noticeBoard = await this.noticeBoardService.getNoticeBoardById(response.docs[0].id);
-                    this.rootStore.setNoticeBoard(noticeBoard);
-                } else {
-                    this.notificationStore.showErrorToast('Unknown notice board code');
-                }
-            } catch (e) {
-                this.notificationStore.showErrorToast('Error');
-            } finally {
-                this.globalLoaderStore.resume();
-            }
-        }
-        const handleJoinNoticeBoardError = () => {
-            this.notificationStore.showErrorToast('Invalid form values');
-        }
-
-        this.createNoticeBoardForm = createForm({ fields: createNoticeBoardFormFields(this.rootStore), hooks: { onSuccess: handleCreateNoticeBoardSuccess, onError: handleCreateNoticeBoardError } });
-        this.joinNoticeBoardForm = createForm({ fields: joinNoticeBoardFormFields, hooks: { onSuccess: handleJoinNoticeBoardSuccess, onError: handleJoinNoticeBoardError } });
-    }
-
-    init = () => { }
 
     dispose = () => {
-        this.createNoticeBoardForm = null;
-        this.joinNoticeBoardForm = null;
+        this.creatorViewStore.dispose();
+        this.newUserViewStore.dispose();
     }
 }
 

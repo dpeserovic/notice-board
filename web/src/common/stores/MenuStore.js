@@ -3,6 +3,10 @@ class MenuStore {
     get menu() {
         return [
             {
+                name: 'Dashboard',
+                route: 'dashboard',
+            },
+            {
                 name: 'Reporter details',
                 route: 'reporter-details',
             },
