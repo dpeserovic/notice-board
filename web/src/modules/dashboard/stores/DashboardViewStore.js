@@ -25,6 +25,8 @@ class DashboardViewStore {
                 const response = await this.noticeBoardService.createNoticeBoard({ ...form.values(), dateCreated: new Date().toGMTString() });
                 await this.userService.update(this.userStore.userId, { role: 'creator', noticeBoardId: response.id });
                 this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());
+                const noticeBoard = await this.noticeBoardService.getNoticeBoardById(response.id);
+                this.rootStore.setNoticeBoard(noticeBoard);
             } catch (e) {
                 this.notificationStore.showErrorToast('Error');
             } finally {
@@ -42,6 +44,8 @@ class DashboardViewStore {
                 if (!response.empty) {
                     await this.userService.update(this.userStore.userId, { role: 'reporter', noticeBoardId: response.docs[0].id });
                     this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());
+                    const noticeBoard = await this.noticeBoardService.getNoticeBoardById(response.docs[0].id);
+                    this.rootStore.setNoticeBoard(noticeBoard);
                 } else {
                     this.notificationStore.showErrorToast('Unknown notice board code');
                 }
