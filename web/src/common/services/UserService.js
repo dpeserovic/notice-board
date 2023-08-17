@@ -19,7 +19,7 @@ class UserService {
     }
 
     getCountOfReportersByNoticeBoard(noticeBoardId) {
-        return getCountFromServer(query(collection(this.db, this.base), where("noticeBoardId", "==", noticeBoardId), where("role", "==", "reporter")));
+        return getCountFromServer(query(collection(this.db, this.base), where('noticeBoardId', '==', noticeBoardId), where('role', '==', 'reporter')));
     }
 
     getReportersByNoticeBoardId(noticeBoardId) {

@@ -27,6 +27,10 @@ class NoticeBoardService {
         return getCountFromServer(collection(this.db, this.base, noticeBoardId, this.subcollection));
     }
 
+    getCountOfNotificationsByAuthorId(noticeBoardId, authorId) {
+        return getCountFromServer(query(collection(this.db, this.base, noticeBoardId, this.subcollection), where('authorId', '==', authorId)));
+    }
+
     subscribeToAllNotifications(noticeBoardId, callback) {
         return onSnapshot(query(collection(this.db, this.base, noticeBoardId, this.subcollection)), callback);
     }

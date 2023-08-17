@@ -10,19 +10,19 @@ import { defaultTemplate } from 'common/hoc';
 import { observer } from 'mobx-react';
 
 function DashboardPage(props) {
-    const { userStore: { userRole }, dashboardViewStore: { creatorViewStore, newUserViewStore } } = props;
+    const { userStore: { userRole }, dashboardViewStore: { creatorViewStore, reporterViewStore, newUserViewStore } } = props;
     switch (userRole) {
         case 'creator':
             return <CreatorDashboard store={creatorViewStore} />
         case 'reporter':
-            return <ReporterDashboard {...props} />
+            return <ReporterDashboard store={reporterViewStore} />
         default:
             return <NewUserDashboard store={newUserViewStore} />;
     }
 }
 
 const CreatorDashboard = observer(({ store }) => {
-    const { rootStore: { userStore: { userAdditionalInfo: { displayName, email, dateCreated, role } }, noticeBoard: { name, description, dateCreated: noticeBoardDateCreated, code } }, loaderStore: { isLoading }, reportersCount, notificationsCount } = store;
+    const { rootStore: { userStore: { userAdditionalInfo: { displayName, email, dateCreated, role } }, noticeBoard: { name, description, dateCreated: noticeBoardDateCreated, code } }, loaderStore: { isLoading }, reportersCount, notificationsCount, myNotificationsCount } = store;
     return (
         <div className="text-center">
             <h1><u>My profile</u></h1>
@@ -42,14 +42,35 @@ const CreatorDashboard = observer(({ store }) => {
                 <ListGroup.Item>Code: {code}</ListGroup.Item>
                 <ListGroup.Item>Number of reporters: {isLoading ? <RotatingLines strokeColor="red" strokeWidth="2.5" animationDuration="1" width="45" visible={true} /> : reportersCount}</ListGroup.Item>
                 <ListGroup.Item>Number of notifications: {isLoading ? <RotatingLines strokeColor="red" strokeWidth="2.5" animationDuration="1" width="45" visible={true} /> : notificationsCount}</ListGroup.Item>
+                <ListGroup.Item>Number of my notifications: {isLoading ? <RotatingLines strokeColor="red" strokeWidth="2.5" animationDuration="1" width="45" visible={true} /> : myNotificationsCount}</ListGroup.Item>
             </ListGroup>
         </div>
     )
 })
 
-function ReporterDashboard(props) {
-    return <span>ReporterDashboard</span>
-}
+const ReporterDashboard = observer(({ store }) => {
+    const { rootStore: { userStore: { userAdditionalInfo: { displayName, email, dateCreated, role } }, noticeBoard: { name, description, dateCreated: noticeBoardDateCreated } }, loaderStore: { isLoading }, myNotificationsCount } = store;
+    return (
+        <div className="text-center">
+            <h1><u>My profile</u></h1>
+            <ListGroup>
+                <ListGroup.Item>Display name: {displayName}</ListGroup.Item>
+                <ListGroup.Item>E-mail: {email}</ListGroup.Item>
+                <ListGroup.Item>Date created: {new Date(dateCreated).toLocaleString(navigator.language)}</ListGroup.Item>
+                <ListGroup.Item>Role: {role.toUpperCase()}</ListGroup.Item>
+            </ListGroup>
+            <hr />
+            <h1><u>My notice board</u></h1>
+            <ListGroup>
+                <ListGroup.Item>Creator: {displayName}</ListGroup.Item>
+                <ListGroup.Item>Name: {name}</ListGroup.Item>
+                <ListGroup.Item>Description: {description}</ListGroup.Item>
+                <ListGroup.Item>Date created: {new Date(noticeBoardDateCreated).toLocaleString(navigator.language)}</ListGroup.Item>
+                <ListGroup.Item>Number of my notifications: {isLoading ? <RotatingLines strokeColor="red" strokeWidth="2.5" animationDuration="1" width="45" visible={true} /> : myNotificationsCount}</ListGroup.Item>
+            </ListGroup>
+        </div>
+    )
+})
 
 const NewUserDashboard = observer(function ({ store }) {
     const { createNoticeBoardForm, joinNoticeBoardForm } = store;

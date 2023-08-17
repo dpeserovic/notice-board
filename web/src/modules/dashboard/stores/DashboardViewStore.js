@@ -7,7 +7,7 @@ class DashboardViewStore {
             case 'creator':
                 return this.creatorViewStore.init;
             case 'reporter':
-                return () => { };
+                return this.reporterViewStore.init;
             default:
                 return this.newUserViewStore.init;
         }

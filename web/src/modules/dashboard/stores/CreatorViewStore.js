@@ -4,6 +4,7 @@ import { LoaderStore } from 'common/stores';
 class CreatorViewStore {
     numberOfReporters = null;
     numberOfNotifications = null;
+    numberOfMyNotifications = null;
 
     get reportersCount() {
         return this.numberOfReporters;
@@ -13,17 +14,24 @@ class CreatorViewStore {
         return this.numberOfNotifications;
     }
 
+    get myNotificationsCount() {
+        return this.numberOfMyNotifications;
+    }
+
     constructor(rootStore) {
         makeObservable(this, {
             numberOfReporters: observable,
             numberOfNotifications: observable,
+            numberOfMyNotifications: observable,
             setNumberOfReporters: action,
             setNumberOfNotifications: action,
+            setNumberOfMyNotifications: action,
             dispose: action,
             reportersCount: computed,
             notificationsCount: computed,
         });
         this.rootStore = rootStore;
+        this.userStore = rootStore.userStore;
         this.userService = rootStore.userService;
         this.noticeBoardService = rootStore.noticeBoardService;
         this.notificationStore = rootStore.notificationStore;
@@ -37,6 +45,8 @@ class CreatorViewStore {
             this.setNumberOfReporters(numberOfReporters.data().count);
             const numberOfNotifications = await this.noticeBoardService.getCountOfNotificationsByNoticeBoard(this.rootStore.noticeBoardId);
             this.setNumberOfNotifications(numberOfNotifications.data().count);
+            const numberOfMyNotifications = await this.noticeBoardService.getCountOfNotificationsByAuthorId(this.rootStore.noticeBoardId, this.userStore.userId);
+            this.setNumberOfMyNotifications(numberOfMyNotifications.data().count);
         } catch (e) {
             this.notificationStore.showErrorToast('Error');
         } finally {
@@ -50,6 +60,10 @@ class CreatorViewStore {
 
     setNumberOfNotifications = numberOfNotifications => {
         this.numberOfNotifications = numberOfNotifications;
+    }
+
+    setNumberOfMyNotifications = numberOfMyNotifications => {
+        this.numberOfMyNotifications = numberOfMyNotifications;
     }
 
     dispose() {
