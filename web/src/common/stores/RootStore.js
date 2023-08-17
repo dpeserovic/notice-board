@@ -23,7 +23,6 @@ class RootStore {
         this.baas = new Baas(baasConfig);
 
         this.routerStore = new RouterStore(this);
-        this.menuStore = new MenuStore(this);
 
         this.globalLoaderStore = new LoaderStore();
         this.notificationStore = new NotificationStore();
@@ -32,6 +31,7 @@ class RootStore {
         this.userService = new UserService(this.baas.db, 'users');
 
         this.userStore = new UserStore(this);
+        this.menuStore = new MenuStore(this);
         this.authStore = new AuthStore(this);
 
         this.membershipModuleStore = new MembershipModuleStore(this);
