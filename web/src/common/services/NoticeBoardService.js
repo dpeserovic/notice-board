@@ -19,10 +19,6 @@ class NoticeBoardService {
         return getDoc(doc(this.db, this.base, id));
     }
 
-    getNoticeBoardById(id) {
-        return getDoc(doc(this.db, this.base, id));
-    }
-
     getCountOfNotificationsByNoticeBoard(noticeBoardId) {
         return getCountFromServer(collection(this.db, this.base, noticeBoardId, this.subcollection));
     }
