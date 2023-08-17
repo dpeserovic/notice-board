@@ -22,6 +22,7 @@ class DashboardViewStore {
 
     dispose = () => {
         this.creatorViewStore.dispose();
+        this.reporterViewStore.dispose();
         this.newUserViewStore.dispose();
     }
 }
