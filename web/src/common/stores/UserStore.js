@@ -31,8 +31,11 @@ class UserStore {
     constructor({ baas: { auth, membershipService }, globalLoaderStore, notificationStore, userService }) {
         makeObservable(this, {
             user: observable,
+            userAdditionalInfo: observable,
             setUser: action,
+            setUserAdditionalInfo: action,
             isLoggedIn: computed,
+            userDisplayName: computed,
         });
         this.auth = auth;
         this.membershipService = membershipService;

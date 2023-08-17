@@ -27,6 +27,7 @@ class NewUserViewStore {
             this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());
             const noticeBoard = await this.noticeBoardService.getNoticeBoardById(response.id);
             this.rootStore.setNoticeBoard(noticeBoard);
+            this.rootStore.dashboardViewStore.initFn();
         } catch (e) {
             this.notificationStore.showErrorToast('Error');
         } finally {
@@ -47,6 +48,7 @@ class NewUserViewStore {
                 this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());
                 const noticeBoard = await this.noticeBoardService.getNoticeBoardById(response.docs[0].id);
                 this.rootStore.setNoticeBoard(noticeBoard);
+                this.rootStore.dashboardViewStore.initFn();
             } else {
                 this.notificationStore.showErrorToast('Unknown notice board code');
             }
