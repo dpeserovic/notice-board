@@ -12,6 +12,14 @@ class UserStore {
         return this.isLoggedIn && this.user.uid;
     }
 
+    get userEmail() {
+        return this.isLoggedIn && this.user.email;
+    }
+
+    get isUserVerified() {
+        return this.isLoggedIn && this.user.emailVerified;
+    }
+
     get hasUserAdditionalInfo() {
         return this.userAdditionalInfo != null;
     }
@@ -24,10 +32,6 @@ class UserStore {
         return this.hasUserAdditionalInfo && this.userAdditionalInfo.noticeBoardId;
     }
 
-    get userDisplayName() {
-        return this.hasUserAdditionalInfo && this.userAdditionalInfo.displayName;
-    }
-
     constructor({ baas: { auth, membershipService }, globalLoaderStore, notificationStore, userService }) {
         makeObservable(this, {
             user: observable,
@@ -35,7 +39,6 @@ class UserStore {
             setUser: action,
             setUserAdditionalInfo: action,
             isLoggedIn: computed,
-            userDisplayName: computed,
         });
         this.auth = auth;
         this.membershipService = membershipService;
@@ -70,9 +73,33 @@ class UserStore {
             this.globalLoaderStore.suspend();
             const { email: formEmail, password } = form.values();
             const response = await this.membershipService.register(this.auth, formEmail, password);
-            const { uid, email, metadata: { creationTime: dateCreated } } = response.user;
-            await this.userService.create(uid, { email, displayName: email.split('@')[0], dateCreated, role: null, noticeBoardId: null });
+            await this.createUserAdditionalInfo(response.user);
+            await this.sendEmailVerification();
             this.notificationStore.showSuccessToast('Success');
+        } catch (e) {
+            this.notificationStore.showErrorToast('Error');
+        } finally {
+            this.globalLoaderStore.resume();
+        }
+    }
+
+    createUserAdditionalInfo = async user => {
+        try {
+            this.globalLoaderStore.suspend();
+            const { uid, email, metadata: { creationTime: dateCreated } } = user;
+            await this.userService.create(uid, { email, dateCreated, role: null, noticeBoardId: null, isApproved: false });
+        } catch (e) {
+            this.notificationStore.showErrorToast('Error');
+        } finally {
+            this.globalLoaderStore.resume();
+        }
+    }
+
+    sendEmailVerification = async () => {
+        try {
+            this.globalLoaderStore.suspend();
+            await this.membershipService.sendEmailVerification(this.auth.currentUser);
+            this.notificationStore.showSuccessToast('E-mail verification sent');
         } catch (e) {
             this.notificationStore.showErrorToast('Error');
         } finally {

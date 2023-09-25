@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 
@@ -15,6 +15,7 @@ class Baas {
     createMembershipService = () => ({
         login: signInWithEmailAndPassword,
         register: createUserWithEmailAndPassword,
+        sendEmailVerification,
         signOut,
     })
 }

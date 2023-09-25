@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import { BsPower } from 'react-icons/bs';
 import { RBNavbarMenu } from './';
 
-function RBNavbar({ userStore: { isLoggedIn, userRole, userDisplayName, logout } }) {
+function RBNavbar({ userStore: { isLoggedIn, userRole, userEmail, logout } }) {
     return (
         <Navbar className="mb-3" expand={false}>
             <Container fluid>
@@ -19,7 +19,7 @@ function RBNavbar({ userStore: { isLoggedIn, userRole, userDisplayName, logout }
                             </Navbar.Offcanvas>
                         </>
                         :
-                        <Navbar.Brand>{userDisplayName} <button type="button" onClick={logout} className="btn-icon btn-icon-danger"><BsPower /></button></Navbar.Brand>
+                        <Navbar.Brand>{userEmail} <button type="button" onClick={logout} className="btn-icon btn-icon-danger"><BsPower /></button></Navbar.Brand>
                     :
                     null}
             </Container>

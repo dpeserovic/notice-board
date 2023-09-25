@@ -10,14 +10,14 @@ import { defaultTemplate } from 'common/hoc';
 import { observer } from 'mobx-react';
 
 function DashboardPage(props) {
-    const { userStore: { userRole }, dashboardViewStore: { creatorViewStore, reporterViewStore, newUserViewStore } } = props;
+    const { userStore: { userRole, isUserVerified }, dashboardViewStore: { creatorViewStore, reporterViewStore, unverifiedUserViewStore, newUserViewStore } } = props;
     switch (userRole) {
         case 'creator':
-            return <CreatorDashboard store={creatorViewStore} />
+            return <CreatorDashboard store={creatorViewStore} />;
         case 'reporter':
-            return <ReporterDashboard store={reporterViewStore} />
+            return <ReporterDashboard store={reporterViewStore} />;
         default:
-            return <NewUserDashboard store={newUserViewStore} />;
+            return isUserVerified ? <NewUserDashboard store={newUserViewStore} /> : <UnverifiedUserDashboard store={unverifiedUserViewStore} />;
     }
 }
 
@@ -67,6 +67,20 @@ const ReporterDashboard = observer(({ store }) => {
                 <ListGroup.Item>Description: {description}</ListGroup.Item>
                 <ListGroup.Item>Date created: {new Date(noticeBoardDateCreated).toLocaleString(navigator.language)}</ListGroup.Item>
                 <ListGroup.Item>Number of my notifications: {isLoading ? <RotatingLines strokeColor="red" strokeWidth="2.5" animationDuration="1" width="45" visible={true} /> : myNotificationsCount}</ListGroup.Item>
+            </ListGroup>
+        </div>
+    )
+})
+
+const UnverifiedUserDashboard = observer(function ({ store }) {
+    const { userStore: { userEmail, sendEmailVerification }, reload } = store;
+    return (
+        <div className="text-center">
+            <h1>E-mail verification sent to {userEmail}</h1>
+            <h6>If you didn't recieve e-mail click on 'Resend e-mail verification' and if you did verify e-mail click on 'Reload'</h6>
+            <ListGroup>
+                <ListGroup.Item><Button type="button" className="mb-3" variant="primary" onClick={sendEmailVerification}>Resend e-mail verification</Button></ListGroup.Item>
+                <ListGroup.Item><Button type="button" className="mb-3" variant="secondary" onClick={reload}>Reload</Button></ListGroup.Item>
             </ListGroup>
         </div>
     )

@@ -1,4 +1,4 @@
-import { CreatorViewStore, ReporterViewStore, NewUserViewStore } from './';
+import { CreatorViewStore, ReporterViewStore, UnverifiedUserViewStore, NewUserViewStore } from './';
 
 class DashboardViewStore {
 
@@ -9,7 +9,7 @@ class DashboardViewStore {
             case 'reporter':
                 return this.reporterViewStore.init;
             default:
-                return this.newUserViewStore.init;
+                return this.rootStore.userStore.isUserVerified ? this.newUserViewStore.init : this.unverifiedUserViewStore.init;
         }
     }
 
@@ -17,12 +17,14 @@ class DashboardViewStore {
         this.rootStore = rootStore;
         this.creatorViewStore = new CreatorViewStore(rootStore);
         this.reporterViewStore = new ReporterViewStore(rootStore);
+        this.unverifiedUserViewStore = new UnverifiedUserViewStore(rootStore);
         this.newUserViewStore = new NewUserViewStore(rootStore);
     }
 
     dispose = () => {
         this.creatorViewStore.dispose();
         this.reporterViewStore.dispose();
+        this.unverifiedUserViewStore.dispose();
         this.newUserViewStore.dispose();
     }
 }

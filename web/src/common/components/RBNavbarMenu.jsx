@@ -4,12 +4,12 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { BsPower } from 'react-icons/bs';
 import Nav from 'react-bootstrap/Nav';
 
-function RBNavbarMenu({ userStore: { userDisplayName, logout }, menuStore: { menu }, routerStore: { goTo } }) {
+function RBNavbarMenu({ userStore: { userEmail, logout }, menuStore: { menu }, routerStore: { goTo } }) {
     return (
         <>
             <Offcanvas.Header closeButton>
                 <Offcanvas.Title id="offcanvasNavbarLabel-expand">
-                    <span>{userDisplayName} <button type="button" onClick={logout} className="btn-icon btn-icon-danger"><BsPower /></button></span>
+                    <span>{userEmail} <button type="button" onClick={logout} className="btn-icon btn-icon-danger"><BsPower /></button></span>
                 </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
