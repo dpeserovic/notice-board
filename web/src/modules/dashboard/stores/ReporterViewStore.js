@@ -25,8 +25,8 @@ class ReporterViewStore {
     init = async () => {
         try {
             this.loaderStore.suspend();
-            const numberOfMyNotifications = await this.noticeBoardService.getCountOfNotificationsByAuthorId(this.rootStore.noticeBoardId, this.userStore.userId);
-            this.setNumberOfMyNotifications(numberOfMyNotifications.data().count);
+            const numberOfMyNotifications = (await this.noticeBoardService.getCountOfNotificationsByAuthorId(this.rootStore.noticeBoardId, this.userStore.userId)).data().count;
+            this.setNumberOfMyNotifications(numberOfMyNotifications);
         } catch (e) {
             this.notificationStore.showErrorToast('Error');
         } finally {

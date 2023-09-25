@@ -29,6 +29,7 @@ class CreatorViewStore {
             dispose: action,
             reportersCount: computed,
             notificationsCount: computed,
+            myNotificationsCount: computed,
         });
         this.rootStore = rootStore;
         this.userStore = rootStore.userStore;
@@ -69,6 +70,7 @@ class CreatorViewStore {
     dispose() {
         this.numberOfReporters = null;
         this.numberOfNotifications = null;
+        this.numberOfMyNotifications = null;
     }
 }
 

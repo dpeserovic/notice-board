@@ -39,6 +39,9 @@ class UserStore {
             setUser: action,
             setUserAdditionalInfo: action,
             isLoggedIn: computed,
+            userEmail: computed,
+            isUserVerified: computed,
+            userRole: computed,
         });
         this.auth = auth;
         this.membershipService = membershipService;
@@ -74,8 +77,9 @@ class UserStore {
             this.globalLoaderStore.suspend();
             const { email: formEmail, password } = form.values();
             const response = await this.membershipService.register(this.auth, formEmail, password);
-            await this.createUserAdditionalInfo(response.user);
-            await this.sendEmailVerification();
+            const { uid, email, metadata: { creationTime } } = response.user;
+            await this.userService.create(uid, { email, creationTime, role: null, noticeBoardId: null, isApproved: false });
+            await this.membershipService.sendEmailVerification(this.auth.currentUser);
             this.notificationStore.showSuccessToast('Success');
         } catch (e) {
             this.notificationStore.showErrorToast('Error');
@@ -97,23 +101,11 @@ class UserStore {
         }
     }
 
-    createUserAdditionalInfo = async user => {
-        try {
-            this.globalLoaderStore.suspend();
-            const { uid, email, metadata: { creationTime: dateCreated } } = user;
-            await this.userService.create(uid, { email, dateCreated, role: null, noticeBoardId: null, isApproved: false });
-        } catch (e) {
-            this.notificationStore.showErrorToast('Error');
-        } finally {
-            this.globalLoaderStore.resume();
-        }
-    }
-
     sendEmailVerification = async () => {
         try {
             this.globalLoaderStore.suspend();
             await this.membershipService.sendEmailVerification(this.auth.currentUser);
-            this.notificationStore.showSuccessToast('E-mail verification sent');
+            this.notificationStore.showSuccessToast('Success');
         } catch (e) {
             this.notificationStore.showErrorToast('Error');
         } finally {

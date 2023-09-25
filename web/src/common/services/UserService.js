@@ -30,7 +30,7 @@ class UserService {
         return onSnapshot(query(collection(this.db, this.base), where('noticeBoardId', '==', noticeBoardId), where('role', '==', 'reporter')), callback);
     }
 
-    getUsersByNoticeBoardId(noticeBoardId) {
+    getReportersByNoticeBoardId(noticeBoardId) {
         return getDocs(query(collection(this.db, this.base), where('noticeBoardId', '==', noticeBoardId)));
     }
 }

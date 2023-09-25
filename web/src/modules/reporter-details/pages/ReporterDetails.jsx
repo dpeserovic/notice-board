@@ -13,7 +13,6 @@ const RBReporterTable = observer(function ({ items }) {
         <Table className="text-center">
             <thead>
                 <tr>
-                    <th>Display name</th>
                     <th>E-mail</th>
                     <th>Date created</th>
                 </tr>
@@ -28,9 +27,8 @@ const RBReporterTable = observer(function ({ items }) {
 const ReporterRow = observer(function ({ item }) {
     return (
         <tr>
-            <td>{item.displayName}</td>
             <td>{item.email}</td>
-            <td>{new Date(item.dateCreated).toLocaleString(navigator.language)}</td>
+            <td>{new Date(item.creationTime).toLocaleString(navigator.language)}</td>
         </tr>
     )
 })

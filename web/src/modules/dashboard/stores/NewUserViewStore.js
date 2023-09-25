@@ -23,8 +23,9 @@ class NewUserViewStore {
         try {
             this.globalLoaderStore.suspend();
             const response = await this.noticeBoardService.createNoticeBoard({ ...form.values(), dateCreated: new Date().toGMTString() });
-            await this.userService.update(this.userStore.userId, { role: 'creator', noticeBoardId: response.id });
-            this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());
+            await this.userService.update(this.userStore.userId, { role: 'creator', noticeBoardId: response.id, isApproved: true });
+            const userAdditionalInfo = (await this.userService.getById(this.userStore.userId)).data();
+            this.userStore.setUserAdditionalInfo(userAdditionalInfo);
             const noticeBoard = await this.noticeBoardService.getNoticeBoardById(response.id);
             this.rootStore.setNoticeBoard(noticeBoard);
             this.rootStore.dashboardViewStore.initFn();
@@ -45,7 +46,8 @@ class NewUserViewStore {
             const response = await this.noticeBoardService.getNoticeBoardByCode(form.values().code);
             if (!response.empty) {
                 await this.userService.update(this.userStore.userId, { role: 'reporter', noticeBoardId: response.docs[0].id });
-                this.userStore.setUserAdditionalInfo((await this.userService.getById(this.userStore.userId)).data());
+                const userAdditionalInfo = (await this.userService.getById(this.userStore.userId)).data();
+                this.userStore.setUserAdditionalInfo(userAdditionalInfo);
                 const noticeBoard = await this.noticeBoardService.getNoticeBoardById(response.docs[0].id);
                 this.rootStore.setNoticeBoard(noticeBoard);
                 this.rootStore.dashboardViewStore.initFn();

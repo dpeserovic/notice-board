@@ -20,8 +20,12 @@ class AuthStore {
     nextOrObserver = async user => {
         if (user != null) {
             this.userStore.setUser(user);
-            this.userStore.setUserAdditionalInfo((await this.userService.getById(user.uid)).data());
-            if (this.userStore.userNoticeBoardId != null) this.setNoticeBoard((await this.noticeBoardService.getNoticeBoardById(this.userStore.userNoticeBoardId)));
+            const userAdditionalInfo = (await this.userService.getById(user.uid)).data();
+            this.userStore.setUserAdditionalInfo(userAdditionalInfo);
+            if (this.userStore.userNoticeBoardId != null) {
+                const noticeBoard = await this.noticeBoardService.getNoticeBoardById(this.userStore.userNoticeBoardId);
+                this.setNoticeBoard(noticeBoard);
+            }
             this.goTo('dashboard');
         } else {
             this.userStore.setUser(null);

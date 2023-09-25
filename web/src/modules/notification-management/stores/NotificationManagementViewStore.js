@@ -1,7 +1,7 @@
-import { makeObservable, observable, action, computed } from 'mobx';
+import { makeObservable, observable, action } from 'mobx';
 
 class NotificationManagementViewStore {
-    noticeBoardUsers = null;
+    noticeBoardReporters = null;
     unsubscribeFn = null;
     notifications = null;
 
@@ -22,7 +22,7 @@ class NotificationManagementViewStore {
     }
 
     init = async () => {
-        this.noticeBoardUsers = (await this.userService.getUsersByNoticeBoardId(this.rootStore.noticeBoardId)).docs.map(i => ({ ...i.data(), id: i.id }));
+        this.noticeBoardReporters = (await this.userService.getReportersByNoticeBoardId(this.rootStore.noticeBoardId)).docs.map(i => ({ ...i.data(), id: i.id }));
         this.unsubscribeFn = this.isUserCreator ?
             this.noticeBoardService.subscribeToAllNotifications(this.rootStore.noticeBoardId, this.handleSnapshotMessage)
             :
@@ -34,15 +34,15 @@ class NotificationManagementViewStore {
             snapshot.docChanges().forEach(i => {
                 if (i.type === 'added') {
                     const docData = i.doc.data();
-                    const idx = this.noticeBoardUsers.findIndex(i => i.id === docData.authorId);
-                    this.notifications.unshift({ ...docData, id: i.doc.id, author: idx != -1 ? this.noticeBoardUsers[idx].displayName : 'Unknown' });
+                    const idx = this.noticeBoardReporters.findIndex(i => i.id === docData.authorId);
+                    this.notifications.unshift({ ...docData, id: i.doc.id, author: idx != -1 ? this.noticeBoardReporters[idx].email : 'Unknown' });
                 } else {
                     const idx = this.notifications.findIndex(n => n.id === i.doc.id);
                     if (idx === -1) return;
                     if (i.type === 'modified') {
                         const docData = i.doc.data();
-                        const authorIdx = this.noticeBoardUsers.findIndex(i => i.id === docData.authorId);
-                        this.notifications[idx] = { ...docData, id: i.doc.id, author: authorIdx != -1 ? this.noticeBoardUsers[authorIdx].displayName : 'Unknown' };
+                        const authorIdx = this.noticeBoardReporters.findIndex(i => i.id === docData.authorId);
+                        this.notifications[idx] = { ...docData, id: i.doc.id, author: authorIdx != -1 ? this.noticeBoardReporters[authorIdx].email : 'Unknown' };
                     } else {
                         this.notifications.splice(idx, 1);
                     }
@@ -51,11 +51,11 @@ class NotificationManagementViewStore {
         } else {
             this.notifications = snapshot.docChanges().map(i => {
                 const docData = i.doc.data();
-                const idx = this.noticeBoardUsers.findIndex(i => i.id === docData.authorId);
+                const idx = this.noticeBoardReporters.findIndex(i => i.id === docData.authorId);
                 return {
                     ...docData,
                     id: i.doc.id,
-                    author: idx != -1 ? this.noticeBoardUsers[idx].displayName : 'Unknown'
+                    author: idx != -1 ? this.noticeBoardReporters[idx].email : 'Unknown'
                 }
             });
         }

@@ -3,6 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import { RBInput } from 'common/components';
 import { RotatingLines } from 'react-loader-spinner';
@@ -22,20 +23,18 @@ function DashboardPage(props) {
 }
 
 const CreatorDashboard = observer(({ store }) => {
-    const { rootStore: { userStore: { userAdditionalInfo: { displayName, email, dateCreated, role } }, noticeBoard: { name, description, dateCreated: noticeBoardDateCreated, code } }, loaderStore: { isLoading }, reportersCount, notificationsCount, myNotificationsCount } = store;
+    const { rootStore: { userStore: { userAdditionalInfo: { email, creationTime, role } }, noticeBoard: { name, description, dateCreated: noticeBoardDateCreated, code } }, loaderStore: { isLoading }, reportersCount, notificationsCount, myNotificationsCount } = store;
     return (
         <div className="text-center">
             <h1><u>My profile</u></h1>
             <ListGroup>
-                <ListGroup.Item>Display name: {displayName}</ListGroup.Item>
                 <ListGroup.Item>E-mail: {email}</ListGroup.Item>
-                <ListGroup.Item>Date created: {new Date(dateCreated).toLocaleString(navigator.language)}</ListGroup.Item>
+                <ListGroup.Item>Date created: {new Date(creationTime).toLocaleString(navigator.language)}</ListGroup.Item>
                 <ListGroup.Item>Role: {role.toUpperCase()}</ListGroup.Item>
             </ListGroup>
             <hr />
             <h1><u>My notice board</u></h1>
             <ListGroup>
-                <ListGroup.Item>Creator: {displayName}</ListGroup.Item>
                 <ListGroup.Item>Name: {name}</ListGroup.Item>
                 <ListGroup.Item>Description: {description}</ListGroup.Item>
                 <ListGroup.Item>Date created: {new Date(noticeBoardDateCreated).toLocaleString(navigator.language)}</ListGroup.Item>
@@ -49,20 +48,18 @@ const CreatorDashboard = observer(({ store }) => {
 })
 
 const ReporterDashboard = observer(({ store }) => {
-    const { rootStore: { userStore: { userAdditionalInfo: { displayName, email, dateCreated, role } }, noticeBoard: { name, description, dateCreated: noticeBoardDateCreated } }, loaderStore: { isLoading }, myNotificationsCount } = store;
+    const { rootStore: { userStore: { userAdditionalInfo: { email, creationTime, role } }, noticeBoard: { name, description, dateCreated: noticeBoardDateCreated } }, loaderStore: { isLoading }, myNotificationsCount } = store;
     return (
         <div className="text-center">
             <h1><u>My profile</u></h1>
             <ListGroup>
-                <ListGroup.Item>Display name: {displayName}</ListGroup.Item>
                 <ListGroup.Item>E-mail: {email}</ListGroup.Item>
-                <ListGroup.Item>Date created: {new Date(dateCreated).toLocaleString(navigator.language)}</ListGroup.Item>
+                <ListGroup.Item>Date created: {new Date(creationTime).toLocaleString(navigator.language)}</ListGroup.Item>
                 <ListGroup.Item>Role: {role.toUpperCase()}</ListGroup.Item>
             </ListGroup>
             <hr />
             <h1><u>My notice board</u></h1>
             <ListGroup>
-                <ListGroup.Item>Creator: {displayName}</ListGroup.Item>
                 <ListGroup.Item>Name: {name}</ListGroup.Item>
                 <ListGroup.Item>Description: {description}</ListGroup.Item>
                 <ListGroup.Item>Date created: {new Date(noticeBoardDateCreated).toLocaleString(navigator.language)}</ListGroup.Item>
@@ -78,10 +75,10 @@ const UnverifiedUserDashboard = observer(function ({ store }) {
         <div className="text-center">
             <h1>E-mail verification sent to {userEmail}</h1>
             <h6>If you didn't recieve e-mail click on 'Resend e-mail verification' and if you did verify e-mail click on 'Reload'</h6>
-            <ListGroup>
-                <ListGroup.Item><Button type="button" className="mb-3" variant="primary" onClick={sendEmailVerification}>Resend e-mail verification</Button></ListGroup.Item>
-                <ListGroup.Item><Button type="button" className="mb-3" variant="secondary" onClick={reload}>Reload</Button></ListGroup.Item>
-            </ListGroup>
+            <ButtonGroup vertical>
+                <Button type="button" className="mb-3" variant="primary" onClick={sendEmailVerification}>Resend e-mail verification</Button>
+                <Button type="button" className="mb-3" variant="secondary" onClick={reload}>Reload</Button>
+            </ButtonGroup>
         </div>
     )
 })
