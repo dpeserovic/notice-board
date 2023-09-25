@@ -11,6 +11,8 @@ class ReporterDetailsViewStore {
             dispose: action,
         });
         this.rootStore = rootStore;
+        this.globalLoaderStore = rootStore.globalLoaderStore;
+        this.showErrorToast = rootStore.notificationStore.showErrorToast;
         this.userService = rootStore.userService;
     }
 
@@ -35,6 +37,17 @@ class ReporterDetailsViewStore {
             });
         } else {
             this.reporters = snapshot.docChanges().map(i => ({ ...i.doc.data(), id: i.doc.id }));
+        }
+    }
+
+    toggleApproval = async ({ id, isApproved }) => {
+        try {
+            this.globalLoaderStore.suspend();
+            await this.userService.update(id, { isApproved: !isApproved });
+        } catch (e) {
+            this.showErrorToast('Error');
+        } finally {
+            this.globalLoaderStore.resume();
         }
     }
 

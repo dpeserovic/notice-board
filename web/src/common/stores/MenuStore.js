@@ -15,7 +15,7 @@ class MenuStore {
             {
                 name: 'Notification management',
                 route: 'notification-management',
-                hasPermission: () => true,
+                hasPermission: () => this.userStore.isUserApproved,
             },
         ];
     }

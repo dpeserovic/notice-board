@@ -48,7 +48,7 @@ const CreatorDashboard = observer(({ store }) => {
 })
 
 const ReporterDashboard = observer(({ store }) => {
-    const { rootStore: { userStore: { userAdditionalInfo: { email, creationTime, role } }, noticeBoard: { name, description, dateCreated: noticeBoardDateCreated } }, loaderStore: { isLoading }, myNotificationsCount } = store;
+    const { rootStore: { userStore: { userAdditionalInfo: { email, creationTime, role, isApproved } }, noticeBoard: { name, description, dateCreated: noticeBoardDateCreated } }, loaderStore: { isLoading }, myNotificationsCount } = store;
     return (
         <div className="text-center">
             <h1><u>My profile</u></h1>
@@ -56,6 +56,7 @@ const ReporterDashboard = observer(({ store }) => {
                 <ListGroup.Item>E-mail: {email}</ListGroup.Item>
                 <ListGroup.Item>Date created: {new Date(creationTime).toLocaleString(navigator.language)}</ListGroup.Item>
                 <ListGroup.Item>Role: {role.toUpperCase()}</ListGroup.Item>
+                <ListGroup.Item>Is approved: {isApproved ? 'Yes' : 'No'}</ListGroup.Item>
             </ListGroup>
             <hr />
             <h1><u>My notice board</u></h1>

@@ -24,6 +24,10 @@ class UserStore {
         return this.userAdditionalInfo != null;
     }
 
+    get isUserApproved() {
+        return this.hasUserAdditionalInfo && this.userAdditionalInfo.isApproved;
+    }
+
     get userRole() {
         return this.hasUserAdditionalInfo && this.userAdditionalInfo.role;
     }

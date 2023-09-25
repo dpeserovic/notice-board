@@ -68,7 +68,7 @@ const routes = [
         pattern: '/notification-management',
         beforeEnter: (fromState, toState, routerStore) => {
             const { options: { rootStore: { notificationManagementViewStore: { init } } } } = routerStore;
-            if (!routerStore.options.rootStore.userStore.isLoggedIn) return Promise.reject();
+            if (!routerStore.options.rootStore.userStore.isLoggedIn || !routerStore.options.rootStore.userStore.isUserApproved) return Promise.reject();
             init();
         },
         onExit: (fromState, toState, routerStore) => {
