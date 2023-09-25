@@ -32,7 +32,7 @@ class UserStore {
         return this.hasUserAdditionalInfo && this.userAdditionalInfo.noticeBoardId;
     }
 
-    constructor({ baas: { auth, membershipService }, globalLoaderStore, notificationStore, userService }) {
+    constructor({ baas: { auth, membershipService }, globalLoaderStore, notificationStore, userService, routerStore: { goTo } }) {
         makeObservable(this, {
             user: observable,
             userAdditionalInfo: observable,
@@ -45,6 +45,7 @@ class UserStore {
         this.globalLoaderStore = globalLoaderStore;
         this.notificationStore = notificationStore;
         this.userService = userService;
+        this.goTo = goTo;
     }
 
     setUser = user => {
@@ -75,6 +76,19 @@ class UserStore {
             const response = await this.membershipService.register(this.auth, formEmail, password);
             await this.createUserAdditionalInfo(response.user);
             await this.sendEmailVerification();
+            this.notificationStore.showSuccessToast('Success');
+        } catch (e) {
+            this.notificationStore.showErrorToast('Error');
+        } finally {
+            this.globalLoaderStore.resume();
+        }
+    }
+
+    passwordReset = async form => {
+        try {
+            this.globalLoaderStore.suspend();
+            await this.membershipService.sendPasswordResetEmail(this.auth, form.values().email);
+            this.goTo('login');
             this.notificationStore.showSuccessToast('Success');
         } catch (e) {
             this.notificationStore.showErrorToast('Error');

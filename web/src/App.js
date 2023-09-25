@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouterContext, RouterView } from 'mobx-state-router';
 import { MainLayout } from 'common/components';
-import { LoginPage, RegisterPage } from 'modules/membership/pages';
+import { LoginPage, RegisterPage, PasswordResetPage } from 'modules/membership/pages';
 import { DashboardPage } from 'modules/dashboard/pages';
 import { ReporterDetails } from 'modules/reporter-details/pages';
 import { NotificationManagement } from 'modules/notification-management/pages';
@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const routeNames = {
   login: <LoginPage />,
   register: <RegisterPage />,
+  'password-reset': <PasswordResetPage />,
   dashboard: <DashboardPage />,
   'reporter-details': <ReporterDetails />,
   'notification-management': <NotificationManagement />,

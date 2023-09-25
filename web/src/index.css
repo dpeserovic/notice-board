@@ -69,6 +69,10 @@
     background-color: var(--secondary-accent);
 }
 
+.btn-group-vertical>* {
+    margin-bottom: 20px
+}
+
 .table {
     width: 80%;
     margin: 0 auto 0 auto;

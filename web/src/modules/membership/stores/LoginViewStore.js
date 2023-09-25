@@ -22,6 +22,10 @@ class LoginViewStore {
         this.goTo('register');
     }
 
+    goToPasswordReset = () => {
+        this.goTo('password-reset');
+    }
+
     dispose = () => {
         this.loginForm = null;
     }

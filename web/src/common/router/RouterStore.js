@@ -26,6 +26,18 @@ const routes = [
         },
     },
     {
+        name: 'password-reset',
+        pattern: '/password-reset',
+        beforeEnter: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { membershipModuleStore: { passwordResetViewStore: { init } } } } } = routerStore;
+            init();
+        },
+        onExit: (fromState, toState, routerStore) => {
+            const { options: { rootStore: { membershipModuleStore: { passwordResetViewStore: { dispose } } } } } = routerStore;
+            dispose();
+        },
+    },
+    {
         name: 'dashboard',
         pattern: '/dashboard',
         beforeEnter: (fromState, toState, routerStore) => {
