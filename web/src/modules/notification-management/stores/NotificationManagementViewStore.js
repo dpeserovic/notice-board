@@ -35,14 +35,14 @@ class NotificationManagementViewStore {
                 if (i.type === 'added') {
                     const docData = i.doc.data();
                     const idx = this.noticeBoardUsers.findIndex(i => i.id === docData.authorId);
-                    this.notifications.unshift({ ...docData, id: i.doc.id, author: idx != -1 ? this.noticeBoardUsers[idx].email : 'Unknown' });
+                    this.notifications.unshift({ ...docData, id: i.doc.id, author: idx !== -1 ? this.noticeBoardUsers[idx].email : 'Unknown' });
                 } else {
                     const idx = this.notifications.findIndex(n => n.id === i.doc.id);
                     if (idx === -1) return;
                     if (i.type === 'modified') {
                         const docData = i.doc.data();
                         const authorIdx = this.noticeBoardUsers.findIndex(i => i.id === docData.authorId);
-                        this.notifications[idx] = { ...docData, id: i.doc.id, author: authorIdx != -1 ? this.noticeBoardUsers[authorIdx].email : 'Unknown' };
+                        this.notifications[idx] = { ...docData, id: i.doc.id, author: authorIdx !== -1 ? this.noticeBoardUsers[authorIdx].email : 'Unknown' };
                     } else {
                         this.notifications.splice(idx, 1);
                     }
@@ -55,7 +55,7 @@ class NotificationManagementViewStore {
                 return {
                     ...docData,
                     id: i.doc.id,
-                    author: idx != -1 ? this.noticeBoardUsers[idx].email : 'Unknown'
+                    author: idx !== -1 ? this.noticeBoardUsers[idx].email : 'Unknown'
                 }
             });
         }
