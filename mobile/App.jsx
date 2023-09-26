@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, getDocs, query, collection, where, onSnapshot, orderBy } from 'firebase/firestore';
 import { BAAS_CONFIG } from './baasConfig';
@@ -19,7 +19,6 @@ const SUBCOLLECTION = 'notifications';
 
 const App = () => {
   const [noticeBoard, setNoticeBoard] = useState(null);
-  EncryptedStorage.clear()
   EncryptedStorage.getItem('noticeBoard')
     .then(response => {
       if (response != null) setNoticeBoard(JSON.parse(response).noticeBoard);
@@ -43,28 +42,24 @@ const Header = () => {
 
 const NotificationList = ({ noticeBoard: { id } }) => {
   const [notifications, setNotifications] = useState([]);
-  console.log({ notifications });
   useEffect(() => {
-    const dispose = onSnapshot(query(collection(DB, BASE, id, SUBCOLLECTION), orderBy('dateCreated', 'desc')), snapshot => {
-      setNotifications(snapshot.docs.map(i => i.data()));
-      // if (notifications.length === 0) {
-      //   setNotifications(snapshot.docChanges().map(i => i.doc.data()));
-      //   setNotifications(snapshot.docs.map(i => i.data()));
-      // } else {
-      //   const temp = [...notifications];
-      //   snapshot.docChanges().forEach(i => {
-      //     if (i.type === 'added') {
-      //       temp.unshift(i.doc.data());
-      //       console.log({ temp })
-      //     }
-      //   })
-      //   setNotifications(temp);
-      // }
-    });
-    return () => dispose()
+    const dispose = onSnapshot(query(collection(DB, BASE, id, SUBCOLLECTION), orderBy('dateCreated', 'desc')), snapshot => setNotifications(snapshot.docs.map(i => i.data())));
+    return () => dispose();
   }, []);
   return (
-    <Text>Prikazi postove</Text>
+    <ScrollView>
+      {notifications.map(i => <Notification key={i.dateCreated} {...i} />)}
+    </ScrollView>
+  )
+}
+
+const Notification = ({ title, text }) => {
+  const [isExpanded, toggleIsExpanded] = useState(false);
+  return (
+    <View style={styles.notification}>
+      <Button title={title} onPress={() => toggleIsExpanded(!isExpanded)} />
+      <Text style={styles.notificationText}>{isExpanded ? text : ''}</Text>
+    </View>
   )
 }
 
@@ -107,6 +102,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   initialInput: {
+    textAlign: 'center',
+  },
+  notification: {
+    padding: 10,
+  },
+  notificationText: {
     textAlign: 'center',
   },
 });
