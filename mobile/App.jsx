@@ -5,20 +5,30 @@
  * @format
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
+import { getFirestore, getDocs, query, collection, where, onSnapshot, orderBy } from 'firebase/firestore';
 import { BAAS_CONFIG } from './baasConfig';
+import EncryptedStorage from 'react-native-encrypted-storage';
+
+const BAAS = initializeApp(BAAS_CONFIG);
+const DB = getFirestore(BAAS);
+const BASE = 'notice-boards';
+const SUBCOLLECTION = 'notifications';
 
 const App = () => {
-  const baas = initializeApp(BAAS_CONFIG)
-  const db = getFirestore(baas)
-  console.log('App')
+  const [noticeBoard, setNoticeBoard] = useState(null);
+  EncryptedStorage.clear()
+  EncryptedStorage.getItem('noticeBoard')
+    .then(response => {
+      if (response != null) setNoticeBoard(JSON.parse(response).noticeBoard);
+    })
+    .catch(e => console.log(e))
   return (
     <View>
       <Header />
-      <Initial databaseRef={db} base='notice-boards' />
+      {noticeBoard != null ? <NotificationList noticeBoard={noticeBoard} /> : <Initial setNoticeBoard={setNoticeBoard} />}
     </View>
   )
 }
@@ -31,15 +41,46 @@ const Header = () => {
   )
 }
 
-const Initial = ({ databaseRef, base }) => {
-  const [code, setCode] = useState('')
-  getNoticeBoardByCode = async () => {
-    console.log('getNoticeBoardByCode')
-    const response = await getDocs(query(collection(databaseRef, base), where('code', '==', code)));
-    if (!response.empty) {
-      const noticeBoard = response.docs[0].data()
-      console.log({ noticeBoard })
-    }
+const NotificationList = ({ noticeBoard: { id } }) => {
+  const [notifications, setNotifications] = useState([]);
+  console.log({ notifications });
+  useEffect(() => {
+    const dispose = onSnapshot(query(collection(DB, BASE, id, SUBCOLLECTION), orderBy('dateCreated', 'desc')), snapshot => {
+      setNotifications(snapshot.docs.map(i => i.data()));
+      // if (notifications.length === 0) {
+      //   setNotifications(snapshot.docChanges().map(i => i.doc.data()));
+      //   setNotifications(snapshot.docs.map(i => i.data()));
+      // } else {
+      //   const temp = [...notifications];
+      //   snapshot.docChanges().forEach(i => {
+      //     if (i.type === 'added') {
+      //       temp.unshift(i.doc.data());
+      //       console.log({ temp })
+      //     }
+      //   })
+      //   setNotifications(temp);
+      // }
+    });
+    return () => dispose()
+  }, []);
+  return (
+    <Text>Prikazi postove</Text>
+  )
+}
+
+const Initial = ({ setNoticeBoard }) => {
+  const [code, setCode] = useState('');
+  const getNoticeBoardByCode = () => {
+    getDocs(query(collection(DB, BASE), where('code', '==', code)))
+      .then(response => {
+        if (!response.empty) {
+          const noticeBoard = { ...response.docs[0].data(), id: response.docs[0].id };
+          EncryptedStorage.setItem('noticeBoard', JSON.stringify({ noticeBoard: noticeBoard }))
+            .then(() => setNoticeBoard(noticeBoard))
+            .catch(e => console.log(e));
+        }
+      })
+      .catch(e => console.log(e));
   }
   return (
     <View style={styles.initial}>
