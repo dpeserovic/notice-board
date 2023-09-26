@@ -30,6 +30,7 @@ const RBNotificationTable = observer(function ({ items, openModal, deleteNotific
                     <th>Title</th>
                     <th>Text</th>
                     <th>Author</th>
+                    <th>Date created</th>
                     <th><i>EDIT</i></th>
                     <th><i>DELETE</i></th>
                 </tr>
@@ -41,12 +42,13 @@ const RBNotificationTable = observer(function ({ items, openModal, deleteNotific
     )
 });
 
-const NotificationRow = observer(function ({ item: { id, text, title, author }, openModal, deleteNotification }) {
+const NotificationRow = observer(function ({ item: { id, text, title, author, dateCreated }, openModal, deleteNotification }) {
     return (
         <tr>
             <td>{title}</td>
             <td>{text}</td>
             <td>{author}</td>
+            <td>{new Date(dateCreated).toLocaleString(navigator.language)}</td>
             <td onClick={() => openModal(id)}><AiFillEdit className="icon" /></td>
             <td onClick={() => deleteNotification(id)}><AiFillDelete className="icon" /></td>
         </tr>
@@ -62,15 +64,17 @@ const NotificationModal = observer(function ({ store }) {
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    {Array.from(notificationForm.fields).map(([key, value]) => {
-                        return (
-                            <Row key={key} className="justify-content-md-center mb-1" md={1}>
-                                <Form.Group>
-                                    <RBInput {...notificationForm.$(key).bind()} />
-                                </Form.Group>
-                            </Row>
-                        )
-                    })}
+                    <RBInput {...notificationForm.$('authorId').bind()} />
+                    <Row className="justify-content-md-center mb-1" md={1}>
+                        <Form.Group>
+                            <RBInput {...notificationForm.$('title').bind()} />
+                        </Form.Group>
+                    </Row>
+                    <Row className="justify-content-md-center mb-1" md={1}>
+                        <Form.Group>
+                            <RBInput as="textarea" rows={5} {...notificationForm.$('text').bind()} />
+                        </Form.Group>
+                    </Row>
                 </Form>
             </Modal.Body>
             <Modal.Footer>

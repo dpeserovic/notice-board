@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, query, where, getDoc, doc, getCountFromServer, onSnapshot, updateDoc, deleteDoc } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, where, getDoc, doc, getCountFromServer, onSnapshot, orderBy, updateDoc, deleteDoc } from 'firebase/firestore';
 
 class NoticeBoardService {
     constructor(db, base, subcollection) {
@@ -28,11 +28,11 @@ class NoticeBoardService {
     }
 
     subscribeToAllNotifications(noticeBoardId, callback) {
-        return onSnapshot(query(collection(this.db, this.base, noticeBoardId, this.subcollection)), callback);
+        return onSnapshot(query(collection(this.db, this.base, noticeBoardId, this.subcollection), orderBy('dateCreated', "desc")), callback);
     }
 
     subscribeToUserNotifications(noticeBoardId, id, callback) {
-        return onSnapshot(query(collection(this.db, this.base, noticeBoardId, this.subcollection), where('authorId', '==', id)), callback);
+        return onSnapshot(query(collection(this.db, this.base, noticeBoardId, this.subcollection), where('authorId', '==', id), orderBy('dateCreated', "desc")), callback);
     }
 
     createNotification(noticeBoardId, data) {
