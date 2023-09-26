@@ -26,16 +26,19 @@ const App = () => {
     .catch(e => console.log(e))
   return (
     <View>
-      <Header />
+      <Header noticeBoard={noticeBoard} setNoticeBoard={setNoticeBoard} />
       {noticeBoard != null ? <NotificationList noticeBoard={noticeBoard} /> : <Initial setNoticeBoard={setNoticeBoard} />}
     </View>
   )
 }
 
-const Header = () => {
+const Header = ({ noticeBoard, setNoticeBoard }) => {
+  const unfollow = () => {
+    EncryptedStorage.clear().then(() => setNoticeBoard(null))
+  }
   return (
     <View style={styles.header}>
-      <Text style={styles.headerBrand}>Notice board</Text>
+      <Text style={styles.headerBrand}>{noticeBoard != null ? <Text onPress={unfollow}>Unfollow {noticeBoard.name}</Text> : 'Notice board'}</Text>
     </View>
   )
 }
