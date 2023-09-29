@@ -4,7 +4,7 @@ const loginFormFields = [
         label: 'Email',
         placeholder: 'Enter Email',
         type: 'text',
-        rules: 'required|email|string|between:5,25',
+        rules: 'required|email|string|between:1,100',
     },
     {
         name: 'password',

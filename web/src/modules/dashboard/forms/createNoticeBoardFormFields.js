@@ -12,14 +12,14 @@ const createNewNoticeBoardFormFields = rootStore => {
             label: 'Name',
             placeholder: 'Enter name',
             type: 'text',
-            rules: 'required|string|between:5,25',
+            rules: 'required|string|between:3,25',
         },
         {
             name: 'description',
             label: 'Description',
             placeholder: 'Enter description',
             type: 'text',
-            rules: 'required|string|between:5,50',
+            rules: 'required|string|between:5,100',
         },
         {
             name: 'code',

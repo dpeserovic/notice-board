@@ -21,7 +21,7 @@ const notificationFormFields = (rootStore, notification) => {
             label: 'Text',
             placeholder: 'Enter text',
             type: 'text',
-            rules: 'required|string|between:5,100',
+            rules: 'required|string|between:5,200',
         },]
     );
 }
